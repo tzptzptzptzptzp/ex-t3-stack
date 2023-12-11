@@ -4,7 +4,8 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  const allBlogs = api.post.getAllBlogs.useQuery();
+  console.log(allBlogs.data);
 
   return (
     <>
@@ -19,32 +20,21 @@ export default function Home() {
             <span className="text-[hsl(280,100%,70%)]">T3</span> Stack Blog
           </h1>
           <div className="grid grid-cols-3 gap-4 sm:grid-cols-3 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
+            {allBlogs.data?.map((blog) => (
+              <Link
+                className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+                href="https://create.t3.gg/en/usage/first-steps"
+                target="_blank"
+              >
+                <h3 className="text-2xl font-bold">{blog.title}</h3>
+                <div className="text-lg">{blog.description}</div>
+                <span className="text-sm text-gray-400">
+                  {blog.createdAt.toLocaleDateString()}
+                </span>
+              </Link>
+            ))}
           </div>
-          <p className="text-2xl text-white">
-            {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-          </p>
+          <p className="text-2xl text-white"></p>
         </div>
       </main>
     </>
