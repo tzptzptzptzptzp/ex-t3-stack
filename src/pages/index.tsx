@@ -5,8 +5,6 @@ import { api } from "~/utils/api";
 
 export default function Home() {
   const allBlogs = api.post.getAllBlogs.useQuery();
-  console.log(allBlogs.data);
-
   return (
     <>
       <Head>
@@ -34,7 +32,14 @@ export default function Home() {
               </Link>
             ))}
           </div>
-          <p className="text-2xl text-white"></p>
+          <div className="mt-12 text-center">
+            <Link
+              href="/postBlog"
+              className="rounded-md bg-orange-500 px-6 py-2 font-medium text-white"
+            >
+              投稿する
+            </Link>
+          </div>
         </div>
       </main>
     </>
