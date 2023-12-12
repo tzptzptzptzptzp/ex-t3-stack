@@ -1,10 +1,13 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import { api } from "~/utils/api";
+import { useRouter } from "next/router";
 
 function postBlog() {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
+
+  const route = useRouter();
 
   const postBlog = api.post.postBlog.useMutation();
 
@@ -17,6 +20,8 @@ function postBlog() {
         description: descriptionRef.current?.value,
       });
     }
+
+    route.push("/");
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
