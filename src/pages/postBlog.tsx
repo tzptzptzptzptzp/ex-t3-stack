@@ -1,10 +1,23 @@
 import React, { useRef } from "react";
 import Link from "next/link";
+import { api } from "~/utils/api";
 
 function postBlog() {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
-  const handleSubmit = (e: React.FormEvent) => {};
+
+  const postBlog = api.post.postBlog.useMutation();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (titleRef.current?.value && descriptionRef.current?.value) {
+      postBlog.mutate({
+        title: titleRef.current?.value,
+        description: descriptionRef.current?.value,
+      });
+    }
+  };
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
