@@ -18,4 +18,9 @@ export const postRouter = createTRPCRouter({
       });
       return postBlog;
     }),
+  getDetailBlog: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query((req) => {
+      return db.blog.findUnique({ where: { id: req.input.id } });
+    }),
 });
