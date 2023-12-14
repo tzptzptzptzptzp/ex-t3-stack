@@ -10,9 +10,18 @@ const DetailBlog: React.FC = () => {
   const detailBlog = api.post.getDetailBlog.useQuery({
     id: parseNumberId,
   });
+  const deleteBlog = api.post.deleteBlog.useMutation();
 
-  const handleDelete = () => {};
-
+  const handleDelete = () => {
+    if (window.confirm("削除しますか？")) {
+      try {
+        deleteBlog.mutate({ id: parseNumberId });
+        void router.push("/");
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <div className="mx-auto mt-10 w-full max-w-2xl rounded-md bg-white p-6 shadow-md">
