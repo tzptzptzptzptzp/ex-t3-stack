@@ -23,4 +23,9 @@ export const postRouter = createTRPCRouter({
     .query((req) => {
       return db.blog.findUnique({ where: { id: req.input.id } });
     }),
+  deleteBlog: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation((req) => {
+      return db.blog.delete({ where: { id: req.input.id } });
+    }),
 });
