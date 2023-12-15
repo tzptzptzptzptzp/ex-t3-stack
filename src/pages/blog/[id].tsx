@@ -7,10 +7,15 @@ const DetailBlog: React.FC = () => {
   const { id } = router.query;
   const parseNumberId = Number(id);
 
+  const allBlogs = api.post.getAllBlogs.useQuery();
   const detailBlog = api.post.getDetailBlog.useQuery({
     id: parseNumberId,
   });
-  const deleteBlog = api.post.deleteBlog.useMutation();
+  const deleteBlog = api.post.deleteBlog.useMutation({
+    onSettled: () => {
+      allBlogs.refetch();
+    },
+  });
 
   const handleDelete = () => {
     if (window.confirm("削除しますか？")) {

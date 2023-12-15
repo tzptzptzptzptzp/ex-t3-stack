@@ -9,7 +9,12 @@ function postBlog() {
 
   const route = useRouter();
 
-  const postBlog = api.post.postBlog.useMutation();
+  const allBlogs = api.post.getAllBlogs.useQuery();
+  const postBlog = api.post.postBlog.useMutation({
+    onSettled: () => {
+      allBlogs.refetch();
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
